@@ -28,7 +28,7 @@
     display:flex;
     top:10vh;
     margin: 3vh 10vw 3vh 10vw;
-    width:80vw;
+    width:100vw;
     
 }
 
@@ -36,7 +36,7 @@
     display: flex;
     flex-direction:row;
     flex-wrap: wrap;
-    height:70vh;
+    height:85vh;
     width:95vw;     
     overflow:scroll;
 }
@@ -48,7 +48,7 @@
 }
 
 
-.character-card{
+.character-card {
     display:flex;
     flex-direction: column;
     width:22vw;
@@ -123,8 +123,7 @@
 }
 
 #character-profile {
-    margin-left:auto;
-    margin-right:auto;
+    margin-left:29vw;
     margin-top:5vh;
 }
 
@@ -186,6 +185,10 @@ li {
     padding:1vh;
 }
 
+#citation-characters-list {
+    width:15vw;
+    height:5vh;
+}
 
 .hidden{
     display:none !important;

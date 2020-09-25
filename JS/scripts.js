@@ -35,6 +35,11 @@ linkPersonnages.addEventListener('click', () => {
     characterProfile.classList.add('hidden');
     personnagesPage.classList.remove('hidden');
 
+    linkPersonnages.innerHTML = "PERSONNAGES";
+    linkEpisodes.innerHTML = "Episodes";
+    linkCitations.innerHTML = "Citations";
+
+
     loadCharactersList()
 })
 
@@ -43,6 +48,10 @@ linkEpisodes.addEventListener('click', () => {
     citationsPage.classList.add('hidden');
     characterProfile.classList.add('hidden');
     episodesPage.classList.remove('hidden');
+
+    linkPersonnages.innerHTML = "Personnages";
+    linkEpisodes.innerHTML = "EPISODES";
+    linkCitations.innerHTML = "Citations";
 })
 
 linkCitations.addEventListener('click', () => {
@@ -50,6 +59,13 @@ linkCitations.addEventListener('click', () => {
     personnagesPage.classList.add('hidden');
     characterProfile.classList.add('hidden');
     citationsPage.classList.remove('hidden');
+
+    linkPersonnages.innerHTML = "Personnages";
+    linkEpisodes.innerHTML = "Episodes";
+    linkCitations.innerHTML = "CITATIONS";
+
+    citationContainer.innerHTML = "";
+    selectCitation.value = "Sélectionnez un personnage";
 
     searchCitationChars();
     loadRandomCitation();
