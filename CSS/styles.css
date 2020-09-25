@@ -1,0 +1,172 @@
+#nav-bar {
+    position:fixed;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    top:0vh;
+    width:100vw;
+    height: 9vh;
+    margin-bottom:5vh;
+    border-bottom: solid 1px black;
+}
+
+.nav-link{
+    text-decoration: none;
+    margin-top:2vh;
+    font-size:3vh;
+    color:black;
+    cursor:pointer;
+}
+
+.nav-link:hover{
+    color:red;
+    font-weight:bold;
+}
+
+#page-container {
+    position:fixed;
+    display:flex;
+    top:10vh;
+    margin: 3vh 10vw 3vh 10vw;
+    width:80vw;
+    
+}
+
+#personnages-cards-container, #episodes-cards-container, #citations-container {
+    display: flex;
+    flex-direction:row;
+    flex-wrap: wrap;
+    height:80vh;
+    overflow:scroll;
+}
+
+
+.search-bar {
+    width:15vw;
+    height:5vh;
+}
+
+
+.character-card{
+    display:flex;
+    flex-direction: column;
+    width:22vw;
+    height:33vh;
+    border:1px solid black;
+    margin: 2vh;
+    text-align:center;
+}
+
+.character-image {
+    width:18vh;
+    height:18vh;
+    margin-right:auto;
+    margin-left:auto;
+    margin-top:1vh;
+}
+
+.character-name {
+    font-size:2.3vh;
+}
+
+.character-name:hover {
+    color:red;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.character-pseudo:hover {
+    font-weight:bold;
+}
+
+.episode-card {
+    display:flex;
+    flex-direction:row;
+    width:22vw;
+    height:25vh;
+    border:1px solid black;
+    margin: 2vh;
+    text-align:center;
+    justify-content: space-evenly;
+}
+
+.episode-card-left, .episode-card-right {
+    display:flex;
+    flex-direction: column;
+    padding:1vh;
+}
+
+.episode-card-left {
+    margin-right: 3vw;
+}
+
+#random-citation {
+    width:30vw;
+    margin-left:auto;
+    margin-right:auto;
+    margin-bottom:5vh;
+}
+
+.citation-card {
+    display:flex;
+    flex-direction: column;
+    width:22vw;
+    height:15vh;
+    border:1px solid black;
+    margin: 2vh;
+    text-align:center;
+}
+
+#character-profile {
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:5vh;
+}
+
+
+.char-profile-image {
+    width:20vw;
+    height:20vw;
+    border-radius:360px;  
+    margin-bottom:4vh; 
+    margin-left:3vw;
+}
+
+.char-profile-name, .character-profile-date, .char-profile-occupation {
+    text-align:center;
+    font-weight:bold;
+    font-size:2.3vh;
+}
+
+.return-button {
+    position:fixed;
+    width:15vw;
+    height:5vh;
+    left:20vw;
+}
+
+.return-button:hover {
+    background-color:black;
+    color:white;
+}
+
+
+.random-quote-text {
+    font-weight:bold;
+    font-size:2.1vh;
+}
+
+.random-quote-author {
+    text-align:center;
+}
+
+li {
+    list-style: none;
+    padding:1vh;
+}
+
+
+.hidden{
+    display:none !important;
+}
+
