@@ -22,11 +22,15 @@ let episodeInputValue;
 let characterList = [];
 let episodeList = [];
 
+let arrayCharacterList = [];
+let thisCharArray = [];
+
 
 // Ecouteurs sur la nav bar
 linkPersonnages.addEventListener('click', () => {
     episodesPage.classList.add('hidden');
     citationsPage.classList.add('hidden');
+    characterProfile.classList.add('hidden');
     personnagesPage.classList.remove('hidden');
 
     loadCharactersList()
@@ -35,12 +39,14 @@ linkPersonnages.addEventListener('click', () => {
 linkEpisodes.addEventListener('click', () => {
     personnagesPage.classList.add('hidden');
     citationsPage.classList.add('hidden');
+    characterProfile.classList.add('hidden');
     episodesPage.classList.remove('hidden');
 })
 
 linkCitations.addEventListener('click', () => {
     episodesPage.classList.add('hidden');
     personnagesPage.classList.add('hidden');
+    characterProfile.classList.add('hidden');
     citationsPage.classList.remove('hidden');
 
     loadRandomCitation();
@@ -59,20 +65,21 @@ function loadCharactersList() {
     request.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             showCharacterList(JSON.parse(this.responseText));
+            arrayCharacterList.push(JSON.parse(this.responseText));
         }
     }
     request.open("GET", "https://www.breakingbadapi.com/api/characters", true);
     request.send();
 }
 
-function showCharacterList (characters) {
-    
+function showCharacterList(characters) {
+
     characters.forEach(character => {
         const characterElement = document.createElement('div');
         characterElement.id = character.char_id;
         characterElement.classList.add('character-card');
 
-      
+
         const characterImage = document.createElement('img');
         characterImage.src = character.img;
         characterImage.classList.add('character-image');
@@ -84,14 +91,14 @@ function showCharacterList (characters) {
         characterElement.appendChild(characterName);
 
         const characterPseudo = document.createElement('p');
-        characterPseudo.innerHTML = "‘ "+character.nickname+" ’";
+        characterPseudo.innerHTML = "‘ " + character.nickname + " ’";
         characterPseudo.classList.add('character-pseudo');
         characterElement.appendChild(characterPseudo);
 
 
         cardContainer.appendChild(characterElement);
 
-        characterName.addEventListener('click', (e)=> {
+        characterName.addEventListener('click', (e) => {
 
             personnagesPage.classList.add('hidden');
             characterProfile.classList.remove('hidden');
@@ -106,26 +113,26 @@ function showCharacterList (characters) {
             button.classList.add('return-button');
             button.value = 'RETOUR';
             charContainer.appendChild(button);
-            button.addEventListener('click', ()=> {
+            button.addEventListener('click', () => {
                 characterProfile.classList.add('hidden');
                 personnagesPage.classList.remove('hidden');
             })
-            
-            
-            const charImg = document.createElement('img'); 
+
+
+            const charImg = document.createElement('img');
             charImg.src = e.composedPath()[1].querySelector('img').src;
             charImg.classList.add('char-profile-image');
             charContainer.appendChild(charImg);
-    
+
 
             let charName = e.composedPath()[1].querySelector('.character-name').innerHTML;
             let charPseudo = e.composedPath()[1].querySelector('.character-pseudo').innerHTML;
 
             const charNamePseudo = document.createElement('div');
-            charNamePseudo.innerHTML = charName+" ("+charPseudo+")";
+            charNamePseudo.innerHTML = charName + " (" + charPseudo + ")";
             charNamePseudo.classList.add('char-profile-name');
             charContainer.appendChild(charNamePseudo);
-    
+
             const birthDate = document.createElement('p');
             birthDate.innerHTML = character.birthday;
             birthDate.classList.add('character-profile-date');
@@ -146,14 +153,14 @@ function showCharacterList (characters) {
 
 
 
-function characterSearch() { 
+function characterSearch() {
 
-  
+
     characterInputValue = searchBarPersonnage.value;
-    characterInputValue = characterInputValue.toLowerCase(); 
+    characterInputValue = characterInputValue.toLowerCase();
 
-   
-    characterList = cardContainer.querySelectorAll('.character-card'); 
+
+    characterList = cardContainer.querySelectorAll('.character-card');
 
     for (i = 0; i < characterList.length; i++) {
 
@@ -162,19 +169,19 @@ function characterSearch() {
         let checkName = characterList[i].querySelector('.character-name').innerHTML.toLowerCase();
 
 
-        if (!checkName.includes(characterInputValue)) { 
-            characterList[i].classList.add('hidden'); 
-        } 
-        else { 
-            characterList[i].classList.remove('hidden');                  
+        if (!checkName.includes(characterInputValue)) {
+            characterList[i].classList.add('hidden');
+        }
+        else {
+            characterList[i].classList.remove('hidden');
         }
 
     }
 
-} 
+}
 
 searchBarPersonnage.addEventListener('keyup', () => {
-    characterSearch();  
+    characterSearch();
 });
 
 
@@ -200,9 +207,9 @@ function loadEpisodesList() {
 
 
 
-function showEpisodesList (episodes) {
-    
-    episodes.forEach(episode=> {
+function showEpisodesList(episodes) {
+
+    episodes.forEach(episode => {
 
         // création du container final
         const episodeTotal = document.createElement('div');
@@ -220,12 +227,12 @@ function showEpisodesList (episodes) {
         episodeLeftPart.appendChild(episodeTitle);
 
         const episodeNumber = document.createElement('p');
-        episodeNumber.innerHTML = "Episode: "+episode.episode;
+        episodeNumber.innerHTML = "Episode: " + episode.episode;
         episodeNumber.classList.add('episode-number');
         episodeLeftPart.appendChild(episodeNumber);
 
         const episodeSeason = document.createElement('p');
-        episodeSeason.innerHTML = "Saison: "+episode.season;
+        episodeSeason.innerHTML = "Saison: " + episode.season;
         episodeSeason.classList.add('episode-season');
         episodeLeftPart.appendChild(episodeSeason);
 
@@ -240,10 +247,82 @@ function showEpisodesList (episodes) {
         episodeRightPart.appendChild(episodeH3);
 
         const episodeCharList = document.createElement('ui');
-        for (i=0;i<3;i++) {
+        for (i = 0; i < 3; i++) {
             const episodeCharItem = document.createElement('li');
             episodeCharItem.innerHTML = episode.characters[i];
             episodeCharItem.classList.add('episode-char-item');
+
+            
+
+
+
+            episodeCharItem.addEventListener('click', (e) => {
+
+                episodesPage.classList.add('hidden');
+                characterProfile.classList.remove('hidden');
+    
+                characterProfile.innerHTML = "";
+    
+                const charContainer = document.createElement('div');
+                charContainer.classList.add('char-profile-container');
+    
+                const button = document.createElement('input');
+                button.type = 'button';
+                button.classList.add('return-button');
+                button.value = 'RETOUR';
+                charContainer.appendChild(button);
+
+                button.addEventListener('click', () => {
+                    characterProfile.classList.add('hidden');
+                    episodesPage.classList.remove('hidden');
+                })
+    
+                for (i=0;i<arrayCharacterList[0].length;i++) {
+                    console.log('arrayCharacterList[i].name');
+                    console.log(arrayCharacterList[0][i].name);
+                    if (e.target.innerHTML == arrayCharacterList[0][i].name) {
+                        thisCharArray = [];
+                        thisCharArray.push(arrayCharacterList[0][i]);
+                    }
+                }
+
+                const charImg = document.createElement('img');
+
+                // e cible le nom du personnage. Itération dans le tableau de perso, pour récupérer les données?
+
+                charImg.src = thisCharArray[0].img;
+                charImg.classList.add('char-profile-image');
+                charContainer.appendChild(charImg);
+    
+    
+                let charName = thisCharArray[0].name;
+                let charPseudo = thisCharArray[0].nickname;
+    
+                const charNamePseudo = document.createElement('div');
+                charNamePseudo.innerHTML = charName + " (" + charPseudo + ")";
+                charNamePseudo.classList.add('char-profile-name');
+                charContainer.appendChild(charNamePseudo);
+    
+                const birthDate = document.createElement('p');
+                birthDate.innerHTML = thisCharArray[0].birthday;
+                birthDate.classList.add('character-profile-date');
+                charContainer.appendChild(birthDate);
+    
+                const charOccupation = document.createElement('p');
+                charOccupation.innerHTML = thisCharArray[0].occupation;
+                charOccupation.classList.add('char-profile-occupation');
+                charContainer.appendChild(charOccupation);
+    
+    
+                characterProfile.appendChild(charContainer);
+            })
+
+
+
+
+
+
+
             episodeCharList.appendChild(episodeCharItem);
         }
         episodeRightPart.appendChild(episodeCharList);
@@ -259,35 +338,35 @@ function showEpisodesList (episodes) {
 }
 
 
-function episodeSearch() { 
+function episodeSearch() {
 
-  
+
     episodeInputValue = searchBarEpisode.value;
-    episodeInputValue = episodeInputValue.toLowerCase(); 
+    episodeInputValue = episodeInputValue.toLowerCase();
 
-   
-    episodeList = episodeContainer.querySelectorAll('.episode-card'); 
 
-    
+    episodeList = episodeContainer.querySelectorAll('.episode-card');
+
+
     for (i = 0; i < episodeList.length; i++) {
 
 
         let checkEpisode = episodeList[i].querySelector('.episode-title').innerHTML.toLowerCase();
 
 
-        if (!checkEpisode.includes(episodeInputValue)) { 
-            episodeList[i].classList.add('hidden'); 
-        } 
-        else { 
-            episodeList[i].classList.remove('hidden');                  
+        if (!checkEpisode.includes(episodeInputValue)) {
+            episodeList[i].classList.add('hidden');
+        }
+        else {
+            episodeList[i].classList.remove('hidden');
         }
 
     }
 
-} 
+}
 
 searchBarEpisode.addEventListener('keyup', () => {
-    episodeSearch();  
+    episodeSearch();
 });
 
 
@@ -317,9 +396,9 @@ function showRandomCitation(quote) {
 
     let randomQuoteElement = document.createElement('div');
     randomQuoteElement.classList.add('random-quote-element');
-    
+
     let randomQuoteText = document.createElement('p');
-    randomQuoteText.innerHTML = "« "+quote[0].quote+" »";
+    randomQuoteText.innerHTML = "« " + quote[0].quote + " »";
     randomQuoteText.classList.add('random-quote-text');
     randomQuoteElement.append(randomQuoteText);
 
@@ -327,6 +406,72 @@ function showRandomCitation(quote) {
     randomQuoteAuthor.innerHTML = quote[0].author;
     randomQuoteAuthor.classList.add('random-quote-author');
     randomQuoteElement.appendChild(randomQuoteAuthor);
+
+
+
+
+    randomQuoteAuthor.addEventListener('click', (e) => {
+
+        citationsPage.classList.add('hidden');
+        characterProfile.classList.remove('hidden');
+
+        characterProfile.innerHTML = "";
+
+        const charContainer = document.createElement('div');
+        charContainer.classList.add('char-profile-container');
+
+        const button = document.createElement('input');
+        button.type = 'button';
+        button.classList.add('return-button');
+        button.value = 'RETOUR';
+        charContainer.appendChild(button);
+
+        button.addEventListener('click', () => {
+            characterProfile.classList.add('hidden');
+            citationsPage.classList.remove('hidden');
+        })
+
+        for (i=0;i<arrayCharacterList[0].length;i++) {
+            
+            if (e.target.innerHTML == arrayCharacterList[0][i].name) {
+                thisCharArray = [];
+                thisCharArray.push(arrayCharacterList[0][i]);
+            }
+        }
+
+        const charImg = document.createElement('img');
+
+        // e cible le nom du personnage. Itération dans le tableau de perso, pour récupérer les données?
+
+        charImg.src = thisCharArray[0].img;
+        charImg.classList.add('char-profile-image');
+        charContainer.appendChild(charImg);
+
+
+        let charName = thisCharArray[0].name;
+        let charPseudo = thisCharArray[0].nickname;
+
+        const charNamePseudo = document.createElement('div');
+        charNamePseudo.innerHTML = charName + " (" + charPseudo + ")";
+        charNamePseudo.classList.add('char-profile-name');
+        charContainer.appendChild(charNamePseudo);
+
+        const birthDate = document.createElement('p');
+        birthDate.innerHTML = thisCharArray[0].birthday;
+        birthDate.classList.add('character-profile-date');
+        charContainer.appendChild(birthDate);
+
+        const charOccupation = document.createElement('p');
+        charOccupation.innerHTML = thisCharArray[0].occupation;
+        charOccupation.classList.add('char-profile-occupation');
+        charContainer.appendChild(charOccupation);
+
+
+        characterProfile.appendChild(charContainer);
+    })
+
+
+
 
     randomCitation.appendChild(randomQuoteElement);
 }
@@ -356,15 +501,15 @@ function loadCitationsList() {
     request.send();
 }
 
-function showCitationsList (citations) {
-    
+function showCitationsList(citations) {
+
     citations.forEach(citation => {
         const citationElement = document.createElement('div');
         citationElement.id = citation.quote_id;
         citationElement.classList.add('citation-card');
 
         const citationText = document.createElement('p');
-        citationText.innerHTML = "« "+citation.quote+" »";
+        citationText.innerHTML = "« " + citation.quote + " »";
         citationText.classList.add('citation-text');
         citationElement.appendChild(citationText);
 
@@ -385,11 +530,11 @@ function showCitationsList (citations) {
 
 // function citationSearch() { 
 
-  
+
 //     characterInputValue = searchBarPersonnage.value;
 //     characterInputValue = characterInputValue.toLowerCase(); 
 
-   
+
 //     characterList = cardContainer.querySelectorAll('.character-card'); 
 
 //     for (i = 0; i < characterList.length; i++) {
