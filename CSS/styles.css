@@ -36,7 +36,8 @@
     display: flex;
     flex-direction:row;
     flex-wrap: wrap;
-    height:80vh;
+    height:70vh;
+    width:95vw;     
     overflow:scroll;
 }
 
@@ -115,12 +116,10 @@
 .citation-card {
     display:flex;
     flex-direction: column;
-    width:22vw;
-    height:20vh;
-    border:1px solid black;
+    width:35vw;
+    height:15vh;
     margin: 2vh;
     text-align:center;
-    justify-content: space-between;
 }
 
 #character-profile {
@@ -176,9 +175,10 @@
     font-weight:bold;
 }
 
-.citation-author {
+.citation-serie {
     position:relative;
     bottom:2vh;
+    right:-15vw
 }
 
 li {
