@@ -19,6 +19,8 @@ let characterProfile = document.getElementById('character-profile');
 
 let characterInputValue;
 let episodeInputValue;
+let charName;
+let charPseudo;
 
 let characterList = [];
 let episodeList = [];
@@ -137,15 +139,35 @@ function showCharacterList(characters) {
                 personnagesPage.classList.remove('hidden');
             })
 
+            console.log(e.target);
+            
+            if (e.target.classList.contains('character-card')) {
 
-            const charImg = document.createElement('img');
-            charImg.src = e.target.querySelector('img').src;
-            charImg.classList.add('char-profile-image');
-            charContainer.appendChild(charImg);
+                
+
+                const charImg = document.createElement('img');
+                charImg.src = e.target.querySelector('img').src;
+                charImg.classList.add('char-profile-image');
+                charContainer.appendChild(charImg);
 
 
-            let charName = e.target.querySelector('.character-name').innerHTML;
-            let charPseudo = e.target.querySelector('.character-pseudo').innerHTML;
+                charName = e.target.querySelector('.character-name').innerHTML;
+                charPseudo = e.target.querySelector('.character-pseudo').innerHTML;
+
+            } else {
+
+                const charImg = document.createElement('img');
+                charImg.src = e.composedPath()[1].querySelector('img').src;
+                charImg.classList.add('char-profile-image');
+                charContainer.appendChild(charImg);
+
+
+                charName = e.composedPath()[1].querySelector('.character-name').innerHTML;
+                charPseudo = e.composedPath()[1].querySelector('.character-pseudo').innerHTML;
+            }
+
+
+
 
             const charNamePseudo = document.createElement('div');
             charNamePseudo.innerHTML = charName + " (" + charPseudo + ")";
@@ -556,13 +578,12 @@ function searchCitationChars() {
                 }
             }
 
-            console.log(citationContainer);
 
             if (citationContainer.innerHTML == "") {
                 const citationElement = document.createElement('div');
-                    citationElement.innerHTML = "Ce personnage n'a aucune citation.";
-                    citationElement.classList.add('citation-card');
-                    citationContainer.appendChild(citationElement);
+                citationElement.innerHTML = "Ce personnage n'a aucune citation.";
+                citationElement.classList.add('citation-card');
+                citationContainer.appendChild(citationElement);
             }
 
 
