@@ -9,6 +9,7 @@ let linkCitations = document.getElementById('link-citations');
 
 let searchBarPersonnage = document.getElementById('search-bar-personnage');
 let searchBarEpisode = document.getElementById('search-bar-episodes');
+let selectCitation = document.getElementById('citation-characters-list');
 
 let cardContainer = document.getElementById('personnages-cards-container');
 let episodeContainer = document.getElementById('episodes-cards-container');
@@ -49,6 +50,7 @@ linkCitations.addEventListener('click', () => {
     characterProfile.classList.add('hidden');
     citationsPage.classList.remove('hidden');
 
+    searchCitationChars();
     loadRandomCitation();
 })
 
@@ -201,7 +203,7 @@ function loadEpisodesList() {
             showEpisodesList(JSON.parse(this.responseText));
         }
     }
-    request.open("GET", "https://www.breakingbadapi.com/api/episodes", true);
+    request.open("GET", "https://www.breakingbadapi.com/api/episodes?series=Breaking+Bad", true);
     request.send();
 }
 
@@ -278,8 +280,6 @@ function showEpisodesList(episodes) {
                 })
     
                 for (i=0;i<arrayCharacterList[0].length;i++) {
-                    console.log('arrayCharacterList[i].name');
-                    console.log(arrayCharacterList[0][i].name);
                     if (e.target.innerHTML == arrayCharacterList[0][i].name) {
                         thisCharArray = [];
                         thisCharArray.push(arrayCharacterList[0][i]);
@@ -494,67 +494,48 @@ function loadCitationsList() {
 
     request.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            showCitationsList(JSON.parse(this.responseText));
+            //showCitationsList(JSON.parse(this.responseText));
         }
     }
     request.open("GET", "https://www.breakingbadapi.com/api/quotes", true);
     request.send();
 }
 
-function showCitationsList(citations) {
 
-    citations.forEach(citation => {
-        const citationElement = document.createElement('div');
-        citationElement.id = citation.quote_id;
-        citationElement.classList.add('citation-card');
+console.log(arrayCharacterList);
+function searchCitationChars () {
+    arrayCharacterList[0].forEach(character => {
 
-        const citationText = document.createElement('p');
-        citationText.innerHTML = "« " + citation.quote + " »";
-        citationText.classList.add('citation-text');
-        citationElement.appendChild(citationText);
+        console.log(character);
+        const newOption = document.createElement('option');
+        newOption.innerHTML = character.name;
+        newOption.classList.add('citation-select-option');
 
-        const citationAuthor = document.createElement('p');
-        citationAuthor.innerHTML = citation.author;
-        citationAuthor.classList.add('citation-author');
-        citationElement.appendChild(citationAuthor);
-
-
-        citationContainer.appendChild(citationElement);
-    }
-    )
+        selectCitation.appendChild(newOption);
+    })
 }
 
 
 
+// function showCitationsList(citations) {
+
+//     citations.forEach(citation => {
+//         const citationElement = document.createElement('div');
+//         citationElement.id = citation.quote_id;
+//         citationElement.classList.add('citation-card');
+
+//         const citationText = document.createElement('p');
+//         citationText.innerHTML = "« " + citation.quote + " »";
+//         citationText.classList.add('citation-text');
+//         citationElement.appendChild(citationText);
+
+//         const citationAuthor = document.createElement('p');
+//         citationAuthor.innerHTML = citation.author;
+//         citationAuthor.classList.add('citation-author');
+//         citationElement.appendChild(citationAuthor);
 
 
-// function citationSearch() { 
-
-
-//     characterInputValue = searchBarPersonnage.value;
-//     characterInputValue = characterInputValue.toLowerCase(); 
-
-
-//     characterList = cardContainer.querySelectorAll('.character-card'); 
-
-//     for (i = 0; i < characterList.length; i++) {
-
-
-
-//         let checkName = characterList[i].querySelector('.character-name').innerHTML.toLowerCase();
-
-
-//         if (!checkName.includes(characterInputValue)) { 
-//             characterList[i].classList.add('hidden'); 
-//         } 
-//         else { 
-//             characterList[i].classList.remove('hidden');                  
-//         }
-
+//         citationContainer.appendChild(citationElement);
 //     }
-
-// } 
-
-// searchBarCitation.addEventListener('keyup', () => {
-//     citationSearch();  
-// });
+//     )
+// }

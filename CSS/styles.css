@@ -100,6 +100,11 @@
     margin-right: 3vw;
 }
 
+.episode-char-item:hover {
+    color:red;
+    font-weight:bold;
+}
+
 #random-citation {
     width:30vw;
     margin-left:auto;
@@ -111,10 +116,11 @@
     display:flex;
     flex-direction: column;
     width:22vw;
-    height:15vh;
+    height:20vh;
     border:1px solid black;
     margin: 2vh;
     text-align:center;
+    justify-content: space-between;
 }
 
 #character-profile {
@@ -154,10 +160,25 @@
 .random-quote-text {
     font-weight:bold;
     font-size:2.1vh;
+    text-align:center;
 }
 
 .random-quote-author {
     text-align:center;
+}
+
+.random-quote-author:hover {
+    color:red;
+    font-weight:bold;
+}
+
+.citation-text {
+    font-weight:bold;
+}
+
+.citation-author {
+    position:relative;
+    bottom:2vh;
 }
 
 li {
