@@ -96,6 +96,7 @@ function loadCharactersList() {
 function showCharacterList(characters) {
 
     characters.forEach(character => {
+
         const characterElement = document.createElement('div');
         characterElement.id = character.char_id;
         characterElement.classList.add('character-card');
@@ -104,16 +105,19 @@ function showCharacterList(characters) {
         const characterImage = document.createElement('img');
         characterImage.src = character.img;
         characterImage.classList.add('character-image');
+
         characterElement.appendChild(characterImage);
 
         const characterName = document.createElement('p');
         characterName.innerHTML = character.name;
         characterName.classList.add('character-name');
+
         characterElement.appendChild(characterName);
 
         const characterPseudo = document.createElement('p');
         characterPseudo.innerHTML = "‘ " + character.nickname + " ’";
         characterPseudo.classList.add('character-pseudo');
+        
         characterElement.appendChild(characterPseudo);
 
 
@@ -594,30 +598,3 @@ function searchCitationChars() {
         selectCitation.appendChild(newOption);
     })
 }
-
-
-
-
-
-// function showCitationsList(citations) {
-
-//     citations.forEach(citation => {
-//         const citationElement = document.createElement('div');
-//         citationElement.id = citation.quote_id;
-//         citationElement.classList.add('citation-card');
-
-//         const citationText = document.createElement('p');
-//         citationText.innerHTML = "« " + citation.quote + " »";
-//         citationText.classList.add('citation-text');
-//         citationElement.appendChild(citationText);
-
-//         const citationAuthor = document.createElement('p');
-//         citationAuthor.innerHTML = citation.author;
-//         citationAuthor.classList.add('citation-author');
-//         citationElement.appendChild(citationAuthor);
-
-
-//         citationContainer.appendChild(citationElement);
-//     }
-//     )
-// }
