@@ -1,21 +1,25 @@
 // Déclaration des variables générales
-let personnagesPage = $("#personnages-page")[0];
-let episodesPage = $("#episodes-page")[0];
-let citationsPage = $("#citations-page")[0];
+let personnagesPage = $("#personnages-page");
+let episodesPage = $("#episodes-page");
+let citationsPage = $("#citations-page");
 
-let linkPersonnages = $("#link-personnages")[0];
-let linkEpisodes = $("#link-episodes")[0];
-let linkCitations = $("#link-citations")[0];
+let linkPersonnages = $("#link-personnages");
+let linkEpisodes = $("#link-episodes");
+let linkCitations = $("#link-citations");
 
-let searchBarPersonnage = $("#search-bar-personnage")[0];
-let searchBarEpisode = $("#search-bar-episodes")[0];
-let selectCitation = $("#citation-characters-list")[0];
+let searchBarPersonnage = $("#search-bar-personnage");
+let searchBarEpisode = $("#search-bar-episodes");
+let selectCitation = $("#citation-characters-list");
 
-let cardContainer = $("#personnages-cards-container")[0];
-let episodeContainer = $("#episodes-cards-container")[0];
-let randomCitation = $("#random-citation")[0];
-let citationContainer = $("#citations-container")[0];
-let characterProfile = $("#character-profile")[0];
+let cardContainer = $("#personnages-cards-container");
+let episodeContainer = $("#episodes-cards-container");
+let randomCitation = $("#random-citation");
+let citationContainer = $("#citations-container");
+let characterProfile = $("#character-profile");
+
+
+// console.log($('#personnages-page'));
+// $('#personnages-page').css({'background':'pink'});
 
 let characterInputValue;
 let episodeInputValue;
@@ -32,42 +36,42 @@ let thisCharArray = [];
 
 
 // Ecouteurs sur la nav bar
-linkPersonnages.addEventListener('click', () => {
-    episodesPage.classList.add('hidden');
-    citationsPage.classList.add('hidden');
-    characterProfile.classList.add('hidden');
-    personnagesPage.classList.remove('hidden');
+linkPersonnages.click(function() {
+    episodesPage.addClass( "hidden" );
+    citationsPage.addClass( "hidden" );
+    characterProfile.addClass( "hidden" );
+    personnagesPage.removeClass ( "hidden" );
 
-    linkPersonnages.innerHTML = "PERSONNAGES";
-    linkEpisodes.innerHTML = "Episodes";
-    linkCitations.innerHTML = "Citations";
+    linkPersonnages.html("PERSONNAGES");
+    linkEpisodes.html("Episodes");
+    linkCitations.html("Citations");
 
     loadCharactersList();
 })
 
-linkEpisodes.addEventListener('click', () => {
-    personnagesPage.classList.add('hidden');
-    citationsPage.classList.add('hidden');
-    characterProfile.classList.add('hidden');
-    episodesPage.classList.remove('hidden');
+linkEpisodes.click(function() {
+    personnagesPage.addClass( "hidden" );
+    citationsPage.addClass( "hidden" );
+    characterProfile.addClass( "hidden" );
+    episodesPage.removeClass( "hidden" );
 
-    linkPersonnages.innerHTML = "Personnages";
-    linkEpisodes.innerHTML = "EPISODES";
-    linkCitations.innerHTML = "Citations";
+    linkPersonnages.html("Personnages");
+    linkEpisodes.html("EPISODES");
+    linkCitations.html("Citations");
 })
 
-linkCitations.addEventListener('click', () => {
-    episodesPage.classList.add('hidden');
-    personnagesPage.classList.add('hidden');
-    characterProfile.classList.add('hidden');
-    citationsPage.classList.remove('hidden');
+linkCitations.click(function() {
+    episodesPage.addClass( "hidden" );
+    personnagesPage.addClass( "hidden" );
+    characterProfile.addClass( "hidden" );
+    citationsPage.removeClass( "hidden" );
 
-    linkPersonnages.innerHTML = "Personnages";
-    linkEpisodes.innerHTML = "Episodes";
-    linkCitations.innerHTML = "CITATIONS";
+    linkPersonnages.html("Personnages");
+    linkEpisodes.html("Episodes");
+    linkCitations.html("CITATIONS");
 
-    citationContainer.innerHTML = "";
-    selectCitation.value = "Sélectionnez un personnage";
+    citationContainer.html("");
+    selectCitation.val("Sélectionnez un personnage");
 
     searchCitationChars();
     loadRandomCitation();
@@ -92,52 +96,60 @@ linkCitations.addEventListener('click', () => {
 
 loadCharactersList();
 
-
+// Fonction qui appelle la requête
 function loadCharactersList() {
+
+    // Requête, vers la cible choisie
     $.get("https://www.breakingbadapi.com/api/characters", function() {
 
+    // Condition de retour de la requête (ici data) (des données intérogées sur l'API)
     })  .always(function(data) {
-    showCharacterList(data);
-    arrayCharacterList.push(data);
+        // On manipule le retour, ici data, comme on le souhaite dans nos fonctions ou variables
+        showCharacterList(data);
+        arrayCharacterList.push(data);
   });
 }
 
 
 function showCharacterList(characters) {
-    console.log(characters);
+
     characters.forEach(character => {
 
-        const characterElement = document.createElement('div');
-        characterElement.id = character.char_id;
-        characterElement.classList.add('character-card');
+
+
+        const characterElement = $('<div/>',{
+                                    id: character.char_id,
+                                    class: 'character-card'
+        }).appendTo(cardContainer);
+        
 
         const characterImage = document.createElement('img');
         characterImage.src = character.img;
         characterImage.classList.add('character-image');
 
-        characterElement.appendChild(characterImage);
+        characterElement.append(characterImage);
 
         const characterName = document.createElement('p');
         characterName.innerHTML = character.name;
         characterName.classList.add('character-name');
 
-        characterElement.appendChild(characterName);
+        characterElement.append(characterName);
 
         const characterPseudo = document.createElement('p');
         characterPseudo.innerHTML = "‘ " + character.nickname + " ’";
         characterPseudo.classList.add('character-pseudo');
 
-        characterElement.appendChild(characterPseudo);
+        characterElement.append(characterPseudo);
 
 
-        cardContainer.appendChild(characterElement);
+        //cardContainer.append(characterElement);
 
-        characterElement.addEventListener('click', (e) => {
+        characterElement.click(function(e) {
 
-            personnagesPage.classList.add('hidden');
-            characterProfile.classList.remove('hidden');
+            personnagesPage.addClass('hidden');
+            characterProfile.removeClass('hidden');
 
-            characterProfile.innerHTML = "";
+            characterProfile.html("");
 
             const charContainer = document.createElement('div');
             charContainer.classList.add('char-profile-container');
@@ -147,9 +159,9 @@ function showCharacterList(characters) {
             button.classList.add('return-button');
             button.value = 'RETOUR';
             charContainer.appendChild(button);
-            button.addEventListener('click', () => {
-                characterProfile.classList.add('hidden');
-                personnagesPage.classList.remove('hidden');
+            button.addEventListener('click', ()=> {
+                characterProfile.addClass('hidden');
+                personnagesPage.removeClass('hidden');
             })
 
             if (e.target.classList.contains('character-card')) {
@@ -159,7 +171,7 @@ function showCharacterList(characters) {
                 charImg.classList.add('char-profile-image');
                 charContainer.appendChild(charImg);
 
-                charName = e.target.querySelector('.character-name').innerHTML;
+                charName = character.name;
                 charPseudo = e.target.querySelector('.character-pseudo').innerHTML;
 
             } else {
@@ -188,7 +200,7 @@ function showCharacterList(characters) {
             charOccupation.classList.add('char-profile-occupation');
             charContainer.appendChild(charOccupation);
 
-            characterProfile.appendChild(charContainer);
+            characterProfile.append(charContainer);
         })
     })
 }
@@ -197,7 +209,7 @@ function showCharacterList(characters) {
 
 function characterSearch() {
 
-    characterInputValue = searchBarPersonnage.value;
+    characterInputValue = searchBarPersonnage.val();
     characterInputValue = characterInputValue.toLowerCase();
 
     characterList = $('.character-card');
@@ -215,7 +227,7 @@ function characterSearch() {
     }
 }
 
-searchBarPersonnage.addEventListener('keyup', () => {
+searchBarPersonnage.keyup(function() {
     characterSearch();
 });
 
@@ -258,10 +270,15 @@ function showEpisodesList(episodes) {
 
     episodes.forEach(episode => {
 
+        const episodeTotal = $('<div/>',{
+            id: episode.episode_id,
+            class: 'episode-card'
+}).appendTo(episodeContainer);
+
         // création du container final
-        const episodeTotal = document.createElement('div');
-        episodeTotal.id = episode.episode_id;
-        episodeTotal.classList.add('episode-card');
+        // const episodeTotal = document.createElement('div');
+        // episodeTotal.id = episode.episode_id;
+        // episodeTotal.classList.add('episode-card');
 
 
         // création de la partie gauche de la carte
@@ -303,12 +320,12 @@ function showEpisodesList(episodes) {
 
 
 
-            episodeCharItem.addEventListener('click', (e) => {
+            episodeCharItem.addEventListener('click', (e)=> {
 
-                episodesPage.classList.add('hidden');
-                characterProfile.classList.remove('hidden');
+                episodesPage.addClass('hidden');
+                characterProfile.removeClass('hidden');
 
-                characterProfile.innerHTML = "";
+                characterProfile.html("");
 
                 const charContainer = document.createElement('div');
                 charContainer.classList.add('char-profile-container');
@@ -320,8 +337,8 @@ function showEpisodesList(episodes) {
                 charContainer.appendChild(button);
 
                 button.addEventListener('click', () => {
-                    characterProfile.classList.add('hidden');
-                    episodesPage.classList.remove('hidden');
+                    characterProfile.addClass('hidden');
+                    episodesPage.removeClass('hidden');
                 })
 
                 for (i = 0; i < arrayCharacterList[0].length; i++) {
@@ -359,7 +376,7 @@ function showEpisodesList(episodes) {
                 charContainer.appendChild(charOccupation);
 
 
-                characterProfile.appendChild(charContainer);
+                characterProfile.append(charContainer);
             })
 
 
@@ -374,10 +391,10 @@ function showEpisodesList(episodes) {
 
 
         // concatenation des deux colones des cartes épisodes
-        episodeTotal.appendChild(episodeLeftPart);
-        episodeTotal.appendChild(episodeRightPart);
+        episodeTotal.append(episodeLeftPart);
+        episodeTotal.append(episodeRightPart);
 
-        episodeContainer.appendChild(episodeTotal);
+        //episodeContainer.append(episodeTotal);
     }
     )
 }
@@ -386,11 +403,11 @@ function showEpisodesList(episodes) {
 function episodeSearch() {
 
 
-    episodeInputValue = searchBarEpisode.value;
+    episodeInputValue = searchBarEpisode.val();
     episodeInputValue = episodeInputValue.toLowerCase();
 
 
-    episodeList = episodeContainer.querySelectorAll('.episode-card');
+    episodeList = $('.episode-card');
 
 
     for (i = 0; i < episodeList.length; i++) {
@@ -410,7 +427,7 @@ function episodeSearch() {
 
 }
 
-searchBarEpisode.addEventListener('keyup', () => {
+searchBarEpisode.keyup(function () {
     episodeSearch();
 });
 
@@ -444,7 +461,7 @@ function loadRandomCitation() {
 
 function showRandomCitation(quote) {
 
-    randomCitation.innerHTML = "";
+    randomCitation.html("");
 
     let randomQuoteElement = document.createElement('div');
     randomQuoteElement.classList.add('random-quote-element');
@@ -462,12 +479,12 @@ function showRandomCitation(quote) {
 
 
 
-    randomQuoteAuthor.addEventListener('click', (e) => {
+    randomQuoteAuthor.addEventListener('click', (e)=> {
 
-        citationsPage.classList.add('hidden');
-        characterProfile.classList.remove('hidden');
+        citationsPage.addClass('hidden');
+        characterProfile.removeClass('hidden');
 
-        characterProfile.innerHTML = "";
+        characterProfile.html("");
 
         const charContainer = document.createElement('div');
         charContainer.classList.add('char-profile-container');
@@ -478,9 +495,9 @@ function showRandomCitation(quote) {
         button.value = 'RETOUR';
         charContainer.appendChild(button);
 
-        button.addEventListener('click', () => {
-            characterProfile.classList.add('hidden');
-            citationsPage.classList.remove('hidden');
+        button.addEventListener('click', ()=> {
+            characterProfile.addClass('hidden');
+            citationsPage.removeClass('hidden');
         })
 
         for (i = 0; i < arrayCharacterList[0].length; i++) {
@@ -519,13 +536,13 @@ function showRandomCitation(quote) {
         charContainer.appendChild(charOccupation);
 
 
-        characterProfile.appendChild(charContainer);
+        characterProfile.append(charContainer);
     })
 
 
 
 
-    randomCitation.appendChild(randomQuoteElement);
+    randomCitation.append(randomQuoteElement);
 }
 
 
@@ -559,14 +576,20 @@ function loadCitationsList() {
 function searchCitationChars() {
     arrayCharacterList[0].forEach(character => {
 
-        const newOption = document.createElement('option');
-        newOption.innerHTML = character.name;
-        newOption.classList.add('citation-select-option');
+
+        const newOption = $('<option/>',{
+            class: 'citation-select-option',
+            html: character.name
+}).appendTo(selectCitation);
+
+        // const newOption = document.createElement('option');
+        // newOption.innerHTML = character.name;
+        // newOption.classList.add('citation-select-option');
 
 
-        newOption.addEventListener('click', (e) => {
+        newOption.click(function(e) {
 
-            citationContainer.innerHTML = "";
+            citationContainer.html("");
 
             for (i = 0; i < arrayCitationList[0].length; i++) {
                 if (e.target.innerHTML == arrayCitationList[0][i].author) {
@@ -586,17 +609,21 @@ function searchCitationChars() {
                     citationElement.appendChild(citationSerie);
 
 
-                    citationContainer.appendChild(citationElement);
+                    citationContainer.append(citationElement);
 
                 }
             }
 
 
-            if (citationContainer.innerHTML == "") {
-                const citationElement = document.createElement('div');
-                citationElement.innerHTML = "Ce personnage n'a aucune citation.";
-                citationElement.classList.add('citation-card');
-                citationContainer.appendChild(citationElement);
+            if (citationContainer.html() == "") {
+
+
+                const citationElement = $('<div/>',{
+                    class: 'citation-card',
+                    html: "Ce personnage n'a aucune citation."
+        }).appendTo(citationContainer);
+
+                
             }
 
 
@@ -604,6 +631,6 @@ function searchCitationChars() {
         })
 
 
-        selectCitation.appendChild(newOption);
+        //selectCitation.append(newOption);
     })
 }
