@@ -1,21 +1,21 @@
 // Déclaration des variables générales
-let personnagesPage = document.getElementById('personnages-page');
-let episodesPage = document.getElementById('episodes-page');
-let citationsPage = document.getElementById('citations-page');
+let personnagesPage = $("#personnages-page")[0];
+let episodesPage = $("#episodes-page")[0];
+let citationsPage = $("#citations-page")[0];
 
-let linkPersonnages = document.getElementById('link-personnages');
-let linkEpisodes = document.getElementById('link-episodes');
-let linkCitations = document.getElementById('link-citations');
+let linkPersonnages = $("#link-personnages")[0];
+let linkEpisodes = $("#link-episodes")[0];
+let linkCitations = $("#link-citations")[0];
 
-let searchBarPersonnage = document.getElementById('search-bar-personnage');
-let searchBarEpisode = document.getElementById('search-bar-episodes');
-let selectCitation = document.getElementById('citation-characters-list');
+let searchBarPersonnage = $("#search-bar-personnage")[0];
+let searchBarEpisode = $("#search-bar-episodes")[0];
+let selectCitation = $("#citation-characters-list")[0];
 
-let cardContainer = document.getElementById('personnages-cards-container');
-let episodeContainer = document.getElementById('episodes-cards-container');
-let randomCitation = document.getElementById('random-citation');
-let citationContainer = document.getElementById('citations-container');
-let characterProfile = document.getElementById('character-profile');
+let cardContainer = $("#personnages-cards-container")[0];
+let episodeContainer = $("#episodes-cards-container")[0];
+let randomCitation = $("#random-citation")[0];
+let citationContainer = $("#citations-container")[0];
+let characterProfile = $("#character-profile")[0];
 
 let characterInputValue;
 let episodeInputValue;
@@ -30,6 +30,7 @@ let arrayCitationList = [];
 let thisCharArray = [];
 
 
+
 // Ecouteurs sur la nav bar
 linkPersonnages.addEventListener('click', () => {
     episodesPage.classList.add('hidden');
@@ -41,8 +42,7 @@ linkPersonnages.addEventListener('click', () => {
     linkEpisodes.innerHTML = "Episodes";
     linkCitations.innerHTML = "Citations";
 
-
-    loadCharactersList()
+    loadCharactersList();
 })
 
 linkEpisodes.addEventListener('click', () => {
@@ -73,34 +73,43 @@ linkCitations.addEventListener('click', () => {
     loadRandomCitation();
 })
 
-
-
 // partie pour les personages
+
+
+// function loadCharactersList() {
+
+//     let request = new XMLHttpRequest();
+
+//     request.onreadystatechange = function () {
+//         if (this.readyState == 4 && this.status == 200) {
+//             showCharacterList(JSON.parse(this.responseText));
+//             arrayCharacterList.push(JSON.parse(this.responseText));
+//         }
+//     }
+//     request.open("GET", "https://www.breakingbadapi.com/api/characters", true);
+//     request.send();
+// }
 
 loadCharactersList();
 
+
 function loadCharactersList() {
+    $.get("https://www.breakingbadapi.com/api/characters", function() {
 
-    let request = new XMLHttpRequest();
-
-    request.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            showCharacterList(JSON.parse(this.responseText));
-            arrayCharacterList.push(JSON.parse(this.responseText));
-        }
-    }
-    request.open("GET", "https://www.breakingbadapi.com/api/characters", true);
-    request.send();
+    })  .always(function(data) {
+    showCharacterList(data);
+    arrayCharacterList.push(data);
+  });
 }
 
-function showCharacterList(characters) {
 
+function showCharacterList(characters) {
+    console.log(characters);
     characters.forEach(character => {
 
         const characterElement = document.createElement('div');
         characterElement.id = character.char_id;
         characterElement.classList.add('character-card');
-
 
         const characterImage = document.createElement('img');
         characterImage.src = character.img;
@@ -117,7 +126,7 @@ function showCharacterList(characters) {
         const characterPseudo = document.createElement('p');
         characterPseudo.innerHTML = "‘ " + character.nickname + " ’";
         characterPseudo.classList.add('character-pseudo');
-        
+
         characterElement.appendChild(characterPseudo);
 
 
@@ -143,17 +152,12 @@ function showCharacterList(characters) {
                 personnagesPage.classList.remove('hidden');
             })
 
-            console.log(e.target);
-            
             if (e.target.classList.contains('character-card')) {
-
-                
 
                 const charImg = document.createElement('img');
                 charImg.src = e.target.querySelector('img').src;
                 charImg.classList.add('char-profile-image');
                 charContainer.appendChild(charImg);
-
 
                 charName = e.target.querySelector('.character-name').innerHTML;
                 charPseudo = e.target.querySelector('.character-pseudo').innerHTML;
@@ -165,13 +169,9 @@ function showCharacterList(characters) {
                 charImg.classList.add('char-profile-image');
                 charContainer.appendChild(charImg);
 
-
                 charName = e.composedPath()[1].querySelector('.character-name').innerHTML;
                 charPseudo = e.composedPath()[1].querySelector('.character-pseudo').innerHTML;
             }
-
-
-
 
             const charNamePseudo = document.createElement('div');
             charNamePseudo.innerHTML = charName + " (" + charPseudo + ")";
@@ -188,11 +188,8 @@ function showCharacterList(characters) {
             charOccupation.classList.add('char-profile-occupation');
             charContainer.appendChild(charOccupation);
 
-
             characterProfile.appendChild(charContainer);
         })
-
-
     })
 }
 
@@ -200,19 +197,14 @@ function showCharacterList(characters) {
 
 function characterSearch() {
 
-
     characterInputValue = searchBarPersonnage.value;
     characterInputValue = characterInputValue.toLowerCase();
 
-
-    characterList = cardContainer.querySelectorAll('.character-card');
+    characterList = $('.character-card');
 
     for (i = 0; i < characterList.length; i++) {
 
-
-
         let checkName = characterList[i].querySelector('.character-name').innerHTML.toLowerCase();
-
 
         if (!checkName.includes(characterInputValue)) {
             characterList[i].classList.add('hidden');
@@ -220,9 +212,7 @@ function characterSearch() {
         else {
             characterList[i].classList.remove('hidden');
         }
-
     }
-
 }
 
 searchBarPersonnage.addEventListener('keyup', () => {
@@ -237,18 +227,30 @@ searchBarPersonnage.addEventListener('keyup', () => {
 
 loadEpisodesList();
 
+
+
 function loadEpisodesList() {
+    $.get("https://www.breakingbadapi.com/api/episodes?series=Breaking+Bad", function(data) {
 
-    let request = new XMLHttpRequest();
-
-    request.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            showEpisodesList(JSON.parse(this.responseText));
-        }
-    }
-    request.open("GET", "https://www.breakingbadapi.com/api/episodes?series=Breaking+Bad", true);
-    request.send();
+    })  .always(function(data) {
+        showEpisodesList(data);
+  });
 }
+
+
+
+// function loadEpisodesList() {
+
+//     let request = new XMLHttpRequest();
+
+//     request.onreadystatechange = function () {
+//         if (this.readyState == 4 && this.status == 200) {
+//             showEpisodesList(JSON.parse(this.responseText));
+//         }
+//     }
+//     request.open("GET", "https://www.breakingbadapi.com/api/episodes?series=Breaking+Bad", true);
+//     request.send();
+// }
 
 
 
@@ -418,20 +420,27 @@ searchBarEpisode.addEventListener('keyup', () => {
 
 // Partie citations
 
-
-
 function loadRandomCitation() {
+    $.get("https://www.breakingbadapi.com/api/quote/random", function(data) {
 
-    let request = new XMLHttpRequest();
-
-    request.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            showRandomCitation(JSON.parse(this.responseText));
-        }
-    }
-    request.open("GET", "https://www.breakingbadapi.com/api/quote/random", true);
-    request.send();
+    })  .always(function(data) {
+        showRandomCitation(data);
+  });
 }
+
+
+// function loadRandomCitation() {
+
+//     let request = new XMLHttpRequest();
+
+//     request.onreadystatechange = function () {
+//         if (this.readyState == 4 && this.status == 200) {
+//             showRandomCitation(JSON.parse(this.responseText));
+//         }
+//     }
+//     request.open("GET", "https://www.breakingbadapi.com/api/quote/random", true);
+//     request.send();
+// }
 
 function showRandomCitation(quote) {
 
