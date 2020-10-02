@@ -118,13 +118,12 @@ function showCharacterList(characters) {
                                     class:'character-pseudo'
         }).appendTo(characterElement);
 
-        characterElement.click(function(e) {
+        characterElement.click(function() {
 
             $personnagesPage.addClass('hidden');
             $characterProfile.removeClass('hidden');
 
             $characterProfile.html("");
-
 
             const charContainer = $('<div/>',{
                                         class:'char-profile-container'
@@ -152,7 +151,7 @@ function showCharacterList(characters) {
 
             const charNamePseudo = $('<div/>',{
                                     html: $charName + " (" + $charPseudo + ")",
-                                    class: 'char-profile-pseudo'
+                                    class: 'char-profile-name'
             }).appendTo(charContainer);
 
             const birthDate = $('<p/>',{
@@ -171,22 +170,21 @@ function showCharacterList(characters) {
 
 function characterSearch() {
 
-    $characterInputValue = $searchBarPersonnage.val();
-    $characterInputValue = $characterInputValue.toLowerCase();
+    $characterInputValue = $searchBarPersonnage.val().toLowerCase();
 
     $characterList = $('.character-card');
 
-    for (i=0;i<$characterList.length;i++) {
-
-        let checkName = $characterList[i].querySelector('.character-name').innerHTML.toLowerCase();
+    $characterList.each(function() {
+        
+        let checkName = $('.character-name', this).html().toLowerCase();
 
         if (!checkName.includes($characterInputValue)) {
-            $characterList[i].classList.add('hidden');
-        }
-        else {
-            $characterList[i].classList.remove('hidden');
-        }
-    }
+                    $(this).addClass('hidden');
+                }
+                else {
+                    $(this).removeClass('hidden');
+                }
+    })
 }
 
 $searchBarPersonnage.keyup(function() {
@@ -196,7 +194,7 @@ $searchBarPersonnage.keyup(function() {
 loadEpisodesList();
 
 function loadEpisodesList() {
-    $.get("https://www.breakingbadapi.com/api/episodes", function() {
+    $.get("https://www.breakingbadapi.com/api/episodes?series=Breaking+Bad", function() {
 
     })  .always(function(data) {
         showEpisodesList(data);
@@ -235,7 +233,7 @@ function showEpisodesList(episodes) {
 
 
         const episodeRightPart = $('<div/>',{
-                                class:'episode-right-card'
+                                class:'episode-card-right'
         }).appendTo(episodeTotal);
 
         const episodeH3 = $('<h3/>',{
@@ -319,22 +317,21 @@ function showEpisodesList(episodes) {
 
 function episodeSearch() {
 
-    $episodeInputValue = $searchBarEpisode.val();
-    $episodeInputValue = $episodeInputValue.toLowerCase();
+    $episodeInputValue = $searchBarEpisode.val().toLowerCase();
 
     $episodeList = $('.episode-card');
 
-    for (i=0;i<$episodeList.length;i++) {
-
-        let checkEpisode = $episodeList[i].querySelector('.episode-title').innerHTML.toLowerCase();
+    $episodeList.each(function() {
+        
+        let checkEpisode = $('.episode-title', this).html().toLowerCase();
 
         if (!checkEpisode.includes($episodeInputValue)) {
-            $episodeList[i].classList.add('hidden');
-        }
+            $(this).addClass('hidden');
+            }
         else {
-            $episodeList[i].classList.remove('hidden');
-        }
-    }
+            $(this).removeClass('hidden');
+            }
+    })
 }
 
 $searchBarEpisode.keyup(function () {
@@ -342,7 +339,7 @@ $searchBarEpisode.keyup(function () {
 });
 
 function loadRandomCitation() {
-    $.get("https://www.breakingbadapi.com/api/quote/random", function(data) {
+    $.get("https://www.breakingbadapi.com/api/quote/random", function() {
 
     })  .always(function(data) {
         showRandomCitation(data);

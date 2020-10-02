@@ -1,3 +1,16 @@
+* {
+    margin:0;
+    padding:0;
+}
+
+body {
+    width:100vw;
+    height:100vh;
+    background:url('../IMG/fond.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
 #nav-bar {
     position:fixed;
     display: flex;
@@ -8,6 +21,7 @@
     height: 9vh;
     margin-bottom:5vh;
     border-bottom: solid 1px black;
+    background-color:white;
 }
 
 .nav-link{
@@ -28,8 +42,7 @@
     display:flex;
     top:10vh;
     margin: 3vh 10vw 3vh 10vw;
-    width:100vw;
-    
+    width:100vw;    
 }
 
 #personnages-cards-container, #episodes-cards-container, #citations-container {
@@ -45,29 +58,33 @@
 .search-bar {
     width:15vw;
     height:5vh;
+    margin-top:-5vh;
+    margin-bottom:2vh;
 }
 
 
 .character-card {
     display:flex;
     flex-direction: column;
-    width:22vw;
-    height:33vh;
+    width:16vw;
+    height:43vh;
     border:1px solid black;
-    margin: 2vh;
+    margin: 3vh 9vh 3vh 9vh;
     text-align:center;
+    background-color:white;
 }
 
 .character-image {
-    width:18vh;
-    height:18vh;
+    width:16vw;
+    height:33vh;
     margin-right:auto;
     margin-left:auto;
-    margin-top:1vh;
 }
 
 .character-name {
     font-size:2.3vh;
+    margin-bottom:2vh;
+    margin-top:1vh;
 }
 
 .character-name:hover {
@@ -89,6 +106,7 @@
     margin: 2vh;
     text-align:center;
     justify-content: space-evenly;
+    background-color:white;
 }
 
 .episode-card-left, .episode-card-right {
@@ -97,10 +115,25 @@
     padding:1vh;
 }
 
-.episode-card-left {
-    margin-right: 3vw;
+.episode-card-right {
+    margin-top:2vh;
 }
 
+.episode-card-left {
+    margin-right:3vw;
+    margin-top:2vh;
+}
+
+.episode-personnage-title {
+    margin-bottom:2vh;
+}
+
+.episode-title {
+    margin-bottom:5vh;
+}
+.episode-number {
+    margin-bottom:1vh;
+}
 .episode-char-item:hover {
     color:red;
     font-weight:bold;
@@ -111,6 +144,7 @@
     margin-left:auto;
     margin-right:auto;
     margin-bottom:5vh;
+    color:white;
 }
 
 .citation-card {
@@ -120,11 +154,13 @@
     height:15vh;
     margin: 2vh;
     text-align:center;
+    color:white;
 }
 
 #character-profile {
     margin-left:29vw;
     margin-top:5vh;
+    color:white;
 }
 
 
